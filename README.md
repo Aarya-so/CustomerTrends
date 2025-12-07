@@ -73,10 +73,19 @@ Example code snippet:
 ```python
 import requests
 
-url = "https://api.exchangerate-api.com/v4/latest/USD"
-response = requests.get(url).json()
-rate_inr = response["rates"]["INR"]
+API_KEY = "48e3ef6961aba5523394ff60"
 
-df["purchase_amount_eur"] = df["purchase_amount"] / response["rates"]["EUR"]
-df["purchase_amount_inr"] = df["purchase_amount"] * rate_inr
+url = f"https://v6.exchangerate-api.com/v6/{API_KEY}/latest/USD"
+
+response = requests.get(url).json()
+
+print(response)  # Debug to see what you get
+
+rates = response['conversion_rates']
+
+df['Purchase_EUR'] = df['purchase_amount'] * rates['EUR']
+df['Purchase_INR'] = df['purchase_amount'] * rates['INR']
+df['Purchase_GBP'] = df['purchase_amount'] * rates['GBP']
+
+#Output will show Currency exchange of various countries
 
